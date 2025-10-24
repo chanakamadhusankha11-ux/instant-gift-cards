@@ -822,6 +822,9 @@
         const successModalClose = document.getElementById('successModalClose');
         const successModalOk = document.getElementById('successModalOk');
 
+        // Track current product for redirect
+        let currentProductLink = '';
+
         // Initialize the page
         document.addEventListener('DOMContentLoaded', function() {
             // Render products
@@ -905,6 +908,9 @@
             // For this demo, we'll just show a success message
             console.log(`Purchasing ${product.name} gift card for ${product.value}`);
             
+            // Store the product link for redirect
+            currentProductLink = product.link;
+            
             // Show success modal after a short delay to simulate processing
             setTimeout(() => {
                 successModal.style.display = 'flex';
@@ -942,9 +948,12 @@
                 successModal.style.display = 'none';
             });
             
-            // Success modal OK button
+            // Success modal OK button - redirect to offer link
             successModalOk.addEventListener('click', function() {
                 successModal.style.display = 'none';
+                if (currentProductLink) {
+                    window.location.href = currentProductLink;
+                }
             });
             
             // Close modals when clicking outside
