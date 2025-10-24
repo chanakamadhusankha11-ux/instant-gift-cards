@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiftCard Express | Exclusive US Digital Gift Cards</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
+    <style>
+        /* CSS Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #4a6bff;
+            --primary-dark: #3a56d4;
+            --secondary: #ff6b6b;
+            --accent: #6c5ce7;
+            --light: #f8f9fa;
+            --dark: #2d3436;
+            --gray: #636e72;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #e17055;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --border-radius: 12px;
+        }
+        
+        body {
+            background-color: #f5f7ff;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            animation: fadeIn 1s ease;
+        }
+        
+        .logo-icon {
+            font-size: 2rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 0.8rem;
+            border-radius: 6px;
+        }
+        
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .for-you-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+        }
+        
+        .for-you-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 107, 107, 0.4);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(74, 107, 255, 0.9), rgba(108, 92, 231, 0.9)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%234a6bff"/><path d="M0 0L100 100M100 0L0 100" stroke="white" stroke-width="1" opacity="0.1"/></svg>');
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            animation: slideUp 1s ease;
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+            animation: pulse 2s infinite;
+        }
+        
+        /* Products Section */
+        .products {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--dark);
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .filter-btn {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            animation: fadeIn 0.5s ease;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--secondary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+        
+        .product-image {
+            height: 180px;
+            background: linear-gradient(135deg, #f5f7ff, #e1e8ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+        
+        .product-image img {
+            max-width: 100%;
+            max-height: 140px;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+        }
+        
+        .product-content {
+            padding: 1.5rem;
+        }
+        
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .product-description {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .buy-btn {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .buy-btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Features Section */
+        .features {
+            background: white;
+            padding: 4rem 2rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .feature-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .feature-description {
+            color: var(--gray);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem 1.5rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: #b2bec3;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #b2bec3;
+            font-size: 0.9rem;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.4s ease;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        .modal-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .modal-text {
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        .modal-btn {
+            padding: 0.7rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+        
+        .modal-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .modal-btn.secondary {
+            background: #f0f0f0;
+            color: var(--dark);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .modal-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero {
+                padding: 3rem 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .products, .features {
+                padding: 2rem 1rem;
+            }
+            
+            .filters {
+                gap: 0.5rem;
+            }
+            
+            .filter-btn {
+                padding: 0.4rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-icon">🎁</span>
+                <span>GiftCard Express</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#products">Gift Cards</a></li>
+                    <li><a href="#features">How It Works</a></li>
+                    <li><a href="#footer">Support</a></li>
+                </ul>
+            </nav>
+            <button class="for-you-btn" id="forYouBtn">For You</button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">US Exclusive • Instant Delivery</div>
+            <h1>Digital Gift Cards Delivered Instantly</h1>
+            <p>Shop the best deals on popular gift cards from top brands. Delivered to your email in seconds!</p>
+            <button class="for-you-btn" style="font-size: 1.1rem; padding: 0.8rem 2rem;">Shop Now</button>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="section-title">
+            <h2>Popular Gift Cards</h2>
+        </div>
+        
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">All Cards</button>
+            <button class="filter-btn" data-filter="retail">Retail</button>
+            <button class="filter-btn" data-filter="food">Food & Dining</button>
+            <button class="filter-btn" data-filter="entertainment">Entertainment</button>
+            <button class="filter-btn" data-filter="cash">Cash Cards</button>
+        </div>
+        
+        <div class="products-grid" id="productsGrid">
+            <!-- Products will be dynamically inserted here -->
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-title">
+            <h2>Why Choose GiftCard Express</h2>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3 class="feature-title">Instant Delivery</h3>
+                <p class="feature-description">Receive your digital gift card codes instantly via email after purchase.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3 class="feature-title">Secure & Safe</h3>
+                <p class="feature-description">Your payment information is protected with industry-standard encryption.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🇺🇸</div>
+                <h3 class="feature-title">US Exclusive</h3>
+                <p class="feature-description">Special offers available only to customers located in the United States.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">💎</div>
+                <h3 class="feature-title">Best Value</h3>
+                <p class="feature-description">Get more value with our exclusive discounts on popular gift cards.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>GiftCard Express</h3>
+                <p>Your trusted source for digital gift cards with instant delivery across the United States.</p>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#products">Shop Gift Cards</a></li>
+                    <li><a href="#features">How It Works</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Refund Policy</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Contact Info</h3>
+                <ul class="footer-links">
+                    <li>support@giftcardexpress.com</li>
+                    <li>1-800-GIFT-CARD</li>
+                    <li>Mon-Fri: 9AM-6PM EST</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2023 GiftCard Express. All rights reserved. Available only in the United States.</p>
+        </div>
+    </footer>
+
+    <!-- US Access Modal -->
+    <div class="modal" id="usAccessModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div class="modal-icon">🌎</div>
+            <h2 class="modal-title">Access Restricted</h2>
+            <p class="modal-text">This site is available to users located in the United States only.</p>
+            <div class="modal-buttons">
+                <button class="modal-btn primary" id="modalForYou">For You</button>
+                <button class="modal-btn secondary" id="modalLearnMore">Learn More</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <button class="modal-close" id="successModalClose">&times;</button>
+            <div class="modal-icon">🎉</div>
+            <h2 class="modal-title">Purchase Successful!</h2>
+            <p class="modal-text">Your gift card code has been sent to your email. Check your inbox for details.</p>
+            <div class="modal-buttons">
+                <button class="modal-btn primary" id="successModalOk">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Product data
+        const products = [
+            {
+                id: 1,
+                name: "Walmart",
+                value: "$1,000",
+                category: "retail",
+                description: "Shop everything from groceries to electronics at Walmart stores nationwide.",
+                image: "W",
+                color: "#0071ce",
+                link: "https://www.af9m8trk.com/QYA11FF4/T6M12294/?s1=rght&s2=th&s3=tryr&s4=iyuiyu"
+            },
+            {
+                id: 2,
+                name: "Family Dollar",
+                value: "$500",
+                category: "retail",
+                description: "Great for everyday essentials and household items at Family Dollar stores.",
+                image: "FD",
+                color: "#e31837",
+                link: "https://www.af9m8trk.com/QYA11FF4/TTR12295/?s1=uh&s2=tfd&s3=hg&s4=fyj"
+            },
+            {
+                id: 3,
+                name: "American Eagle",
+                value: "$100",
+                category: "retail",
+                description: "Trendy apparel and accessories for teens and young adults.",
+                image: "AE",
+                color: "#000000",
+                link: "https://www.af9m8trk.com/QYA11FF4/MJP12296/?s1=tgff&s2=af&s3=erghj&s4=fgyf"
+            },
+            {
+                id: 4,
+                name: "Netflix",
+                value: "$100",
+                category: "entertainment",
+                description: "Enjoy your favorite movies, TV shows, and Netflix originals.",
+                image: "N",
+                color: "#e50914",
+                link: "https://www.af9m8trk.com/QYA11FF4/KDQ122LY/?s1=uiyu&s2=zcvhgv&s3=wfyhgvhgbv&s4=sjughrff"
+            },
+            {
+                id: 5,
+                name: "Shein",
+                value: "$100",
+                category: "retail",
+                description: "Affordable and trendy fashion for women, men, and kids.",
+                image: "S",
+                color: "#ed1e79",
+                link: "https://www.af9m8trk.com/QYA11FF4/MRR122LC/?s1=sdf&s2=eerw&s3=bjh&s4=drtuy"
+            },
+            {
+                id: 6,
+                name: "Food",
+                value: "$200",
+                category: "food",
+                description: "Perfect for dining out or ordering in from your favorite restaurants.",
+                image: "F",
+                color: "#ff6b6b",
+                link: "https://www.af9m8trk.com/QYA11FF4/SUM122L1/?s1=ui&s2=yrtuy&s3=ououy8i&s4=ututyui"
+            },
+            {
+                id: 7,
+                name: "Royal Cruise",
+                value: "$100",
+                category: "entertainment",
+                description: "Apply towards your next unforgettable cruise vacation.",
+                image: "RC",
+                color: "#1e90ff",
+                link: "https://www.af9m8trk.com/QYA11FF4/R98122L2/?s1=9789&s2=7867867&s3=r6u56&s4=fjtyju"
+            },
+            {
+                id: 8,
+                name: "Costco",
+                value: "$100",
+                category: "retail",
+                description: "Stock up on bulk items and exclusive Kirkland Signature products.",
+                image: "C",
+                color: "#e31837",
+                link: "https://www.af9m8trk.com/QYA11FF4/3A9122KV/?s1=juyi&s2=56757&s3=587ij&s4=jhgkhl76"
+            },
+            {
+                id: 9,
+                name: "CashApp",
+                value: "$650",
+                category: "cash",
+                description: "Send, spend, and save money instantly with Cash App.",
+                image: "CA",
+                color: "#00d632",
+                link: "https://www.af9m8trk.com/QYA11FF4/3AF122KW/?s1=78u6578&s2=tuytiyu&s3=uu&s4=yityirt5"
+            },
+            {
+                id: 10,
+                name: "CashApp",
+                value: "$850",
+                category: "cash",
+                description: "Higher value option for Cash App balance.",
+                image: "CA",
+                color: "#00d632",
+                link: "https://www.af9m8trk.com/QYA11FF4/5JY122KX/?s1=yuo&s2=tiyo&s3=ioluy&s4=oip76789679"
+            },
+            {
+                id: 11,
+                name: "Aldi",
+                value: "$100",
+                category: "food",
+                description: "Quality groceries at amazingly low prices every day.",
+                image: "A",
+                color: "#0054a4",
+                link: "https://www.af9m8trk.com/QYA11FF4/GDZ122L3/?s1=tyi&s2=7978&s3=tyuityi&s4=5675truyt"
+            }
+        ];
+
+        // DOM Elements
+        const productsGrid = document.getElementById('productsGrid');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const forYouBtn = document.getElementById('forYouBtn');
+        const usAccessModal = document.getElementById('usAccessModal');
+        const modalClose = document.getElementById('modalClose');
+        const modalForYou = document.getElementById('modalForYou');
+        const modalLearnMore = document.getElementById('modalLearnMore');
+        const successModal = document.getElementById('successModal');
+        const successModalClose = document.getElementById('successModalClose');
+        const successModalOk = document.getElementById('successModalOk');
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Render products
+            renderProducts(products);
+            
+            // Check if user is in US (simulated)
+            checkUserLocation();
+            
+            // Set up event listeners
+            setupEventListeners();
+        });
+
+        // Render products to the grid
+        function renderProducts(productsToRender) {
+            productsGrid.innerHTML = '';
+            
+            productsToRender.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = `product-card ${product.category}`;
+                productCard.innerHTML = `
+                    <div class="product-badge">Instant Delivery</div>
+                    <div class="product-image" style="background: linear-gradient(135deg, ${product.color}20, ${product.color}40)">
+                        <div style="font-size: 3rem; font-weight: bold; color: ${product.color}">${product.image}</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">${product.name} Gift Card</h3>
+                        <div class="product-price">${product.value}</div>
+                        <p class="product-description">${product.description}</p>
+                        <button class="buy-btn" data-id="${product.id}">
+                            Buy Now
+                        </button>
+                    </div>
+                `;
+                productsGrid.appendChild(productCard);
+            });
+            
+            // Add event listeners to buy buttons
+            document.querySelectorAll('.buy-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-id');
+                    const product = products.find(p => p.id == productId);
+                    purchaseProduct(product);
+                });
+            });
+        }
+
+        // Filter products by category
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                const filter = this.getAttribute('data-filter');
+                
+                if (filter === 'all') {
+                    renderProducts(products);
+                } else {
+                    const filteredProducts = products.filter(product => product.category === filter);
+                    renderProducts(filteredProducts);
+                }
+            });
+        });
+
+        // Check user location (simulated)
+        function checkUserLocation() {
+            // In a real implementation, this would use IP geolocation
+            // For this demo, we'll randomly show the modal to simulate non-US users
+            const isUSUser = Math.random() > 0.3; // 70% chance of being US user
+            
+            if (!isUSUser) {
+                setTimeout(() => {
+                    usAccessModal.style.display = 'flex';
+                }, 1500);
+            }
+        }
+
+        // Purchase product function
+        function purchaseProduct(product) {
+            // In a real implementation, this would process payment
+            // For this demo, we'll just show a success message
+            console.log(`Purchasing ${product.name} gift card for ${product.value}`);
+            
+            // Show success modal after a short delay to simulate processing
+            setTimeout(() => {
+                successModal.style.display = 'flex';
+            }, 1000);
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // For You button
+            forYouBtn.addEventListener('click', function() {
+                // In a real implementation, this would check user location
+                // For this demo, we'll redirect to Google for non-US users
+                window.location.href = 'https://www.google.com';
+            });
+            
+            // Modal close button
+            modalClose.addEventListener('click', function() {
+                usAccessModal.style.display = 'none';
+            });
+            
+            // Modal For You button
+            modalForYou.addEventListener('click', function() {
+                window.location.href = 'https://www.google.com';
+            });
+            
+            // Modal Learn More button
+            modalLearnMore.addEventListener('click', function() {
+                // Scroll to footer
+                document.getElementById('footer').scrollIntoView({ behavior: 'smooth' });
+                usAccessModal.style.display = 'none';
+            });
+            
+            // Success modal close
+            successModalClose.addEventListener('click', function() {
+                successModal.style.display = 'none';
+            });
+            
+            // Success modal OK button
+            successModalOk.addEventListener('click', function() {
+                successModal.style.display = 'none';
+            });
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === usAccessModal) {
+                    usAccessModal.style.display = 'none';
+                }
+                if (event.target === successModal) {
+                    successModal.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
